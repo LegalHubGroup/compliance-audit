@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free State Bar Compliance Audit | Legal Hub Group</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0B1D33;
+  --navy-light: #132B4A;
+  --gold: #C9A84C;
+  --gold-light: #E2C97E;
+  --white: #FFFFFF;
+  --gray-100: #F4F5F7;
+  --gray-200: #E1E4E8;
+  --gray-400: #8B95A5;
+  --gray-600: #4A5568;
+  --red: #D64545;
+  --yellow: #E5A913;
+  --green: #2D9B5A;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--navy);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* HERO */
+.hero {
+  background: var(--navy);
+  color: var(--white);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--white);
+  letter-spacing: -0.3px;
+}
+
+.logo span { color: var(--gold); }
+
+.nav-cta {
+  background: var(--gold);
+  color: var(--navy);
+  padding: 10px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.nav-cta:hover { background: var(--gold-light); }
+
+.hero-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 32px 80px;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--gold-light);
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 48px;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin-bottom: 24px;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--gold);
+}
+
+.hero p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--gray-400);
+  margin-bottom: 12px;
+  max-width: 500px;
+}
+
+.hero-stat-row {
+  display: flex;
+  gap: 32px;
+  margin-top: 36px;
+  padding-top: 36px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.hero-stat {
+  text-align: left;
+}
+
+.hero-stat .number {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  color: var(--gold);
+  display: block;
+  line-height: 1;
+}
+
+.hero-stat .label {
+  font-size: 13px;
+  color: var(--gray-400);
+  margin-top: 6px;
+  display: block;
+  line-height: 1.4;
+}
+
+/* FORM CARD */
+.form-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 40px 36px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+}
+
+.form-card h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.form-card .subtitle {
+  font-size: 14px;
+  color: var(--gray-400);
+  margin-bottom: 28px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-600);
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: var(--navy);
+  transition: border-color 0.2s;
+  background: var(--gray-100);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--gold);
+  background: var(--white);
+}
+
+.form-group input::placeholder {
+  color: var(--gray-400);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+  letter-spacing: 0.3px;
+}
+
+.submit-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(201,168,76,0.4);
+}
+
+.form-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--gray-400);
+  margin-top: 14px;
+}
+
+/* RISK AREAS */
+.risk-section {
+  padding: 100px 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  display: inline-block;
+  background: rgba(201,168,76,0.1);
+  color: var(--gold);
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.risk-section h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 40px;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+.risk-section > p {
+  font-size: 18px;
+  color: var(--gray-600);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 56px;
+}
+
+.risk-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.risk-card {
+  border: 1.5px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 28px 28px;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.risk-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 12px 0 0 12px;
+}
+
+.risk-card.red::before { background: var(--red); }
+.risk-card.yellow::before { background: var(--yellow); }
+.risk-card.green::before { background: var(--green); }
+
+.risk-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  transform: translateY(-2px);
+}
+
+.risk-card .risk-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.risk-card.red .risk-icon { background: rgba(214,69,69,0.1); }
+.risk-card.yellow .risk-icon { background: rgba(229,169,19,0.1); }
+.risk-card.green .risk-icon { background: rgba(45,155,90,0.1); }
+
+.risk-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.risk-card p {
+  font-size: 14px;
+  color: var(--gray-600);
+  line-height: 1.6;
+}
+
+.risk-card .penalty {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+}
+
+.risk-card.red .penalty { background: rgba(214,69,69,0.1); color: var(--red); }
+.risk-card.yellow .penalty { background: rgba(229,169,19,0.1); color: var(--yellow); }
+
+/* SOCIAL PROOF */
+.proof-section {
+  background: var(--gray-100);
+  padding: 80px 32px;
+}
+
+.proof-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.proof-inner h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  margin-bottom: 48px;
+}
+
+.proof-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.proof-stat {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 32px 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.proof-stat .big {
+  font-family: 'DM Serif Display', serif;
+  font-size: 42px;
+  color: var(--navy);
+  display: block;
+  line-height: 1;
+}
+
+.proof-stat .big.red-text { color: var(--red); }
+.proof-stat .big.gold-text { color: var(--gold); }
+
+.proof-stat .desc {
+  font-size: 14px;
+  color: var(--gray-600);
+  margin-top: 10px;
+  display: block;
+  line-height: 1.5;
+}
+
+/* CTA SECTION */
+.cta-section {
+  background: var(--navy);
+  padding: 80px 32px;
+  text-align: center;
+}
+
+.cta-section h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 40px;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.cta-section p {
+  font-size: 18px;
+  color: var(--gray-400);
+  margin-bottom: 36px;
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+}
+
+.cta-button {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--navy);
+  padding: 18px 48px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 17px;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.cta-button:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(201,168,76,0.35);
+}
+
+/* FOOTER */
+.footer {
+  background: var(--navy-light);
+  padding: 40px 32px;
+  text-align: center;
+}
+
+.footer p {
+  font-size: 14px;
+  color: var(--gray-400);
+}
+
+.footer a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 40px 20px 60px;
+  }
+  .hero h1 { font-size: 34px; }
+  .hero-stat-row { gap: 24px; }
+  .hero-stat .number { font-size: 28px; }
+  .risk-grid { grid-template-columns: 1fr; }
+  .proof-stats { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+  .risk-section h2, .proof-inner h2, .cta-section h2 { font-size: 30px; }
+  .nav { padding: 20px; }
+  .form-card { padding: 28px 24px; }
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-badge { animation: fadeUp 0.6s ease both; }
+.hero h1 { animation: fadeUp 0.6s ease 0.1s both; }
+.hero p { animation: fadeUp 0.6s ease 0.2s both; }
+.hero-stat-row { animation: fadeUp 0.6s ease 0.3s both; }
+.form-card { animation: fadeUp 0.7s ease 0.2s both; }
+
+/* SUCCESS STATE */
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.form-success .checkmark {
+  width: 64px;
+  height: 64px;
+  background: rgba(45,155,90,0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 28px;
+}
+
+.form-success h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.form-success p {
+  font-size: 14px;
+  color: var(--gray-600);
+  line-height: 1.6;
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <nav class="nav">
+    <div class="logo">Legal Hub <span>Group</span></div>
+    <a href="#audit-form" class="nav-cta">Get Free Audit</a>
+  </nav>
+
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge">Free Compliance Audit</div>
+      <h1>Is your firm ready for a <em>State Bar audit?</em></h1>
+      <p>The California State Bar opened 21,000+ discipline cases last year and just started randomly auditing firms' trust accounts with CPAs. Most firms we check have 3-4 compliance gaps they didn't know about.</p>
+      <p>Find yours in 5 minutes — before the Bar does.</p>
+
+      <div class="hero-stat-row">
+        <div class="hero-stat">
+          <span class="number">21,000+</span>
+          <span class="label">Discipline cases<br>opened FY 2025</span>
+        </div>
+        <div class="hero-stat">
+          <span class="number">41%</span>
+          <span class="label">Solo/small firm<br>investigation rate</span>
+        </div>
+        <div class="hero-stat">
+          <span class="number">69</span>
+          <span class="label">Attorneys disbarred<br>in FY 2025</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-card" id="audit-form">
+      <div id="form-fields">
+        <h2>Get Your Free Audit</h2>
+        <p class="subtitle">Takes 2 minutes. Results delivered within 24 hours.</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="Andranik" id="fname">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Gyulasaryan" id="lname">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="you@yourfirm.com" id="email">
+        </div>
+
+        <div class="form-group">
+          <label>Firm Name</label>
+          <input type="text" placeholder="Your Law Firm" id="firm">
+        </div>
+
+        <div class="form-group">
+          <label>Firm Size</label>
+          <select id="firm-size">
+            <option value="">Select firm size</option>
+            <option value="solo">Solo Practitioner</option>
+            <option value="2-5">2-5 Attorneys</option>
+            <option value="6-15">6-15 Attorneys</option>
+            <option value="16-50">16-50 Attorneys</option>
+            <option value="50+">50+ Attorneys</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Primary Practice Area</label>
+          <select id="practice">
+            <option value="">Select practice area</option>
+            <option value="family">Family Law</option>
+            <option value="immigration">Immigration</option>
+            <option value="personal-injury">Personal Injury</option>
+            <option value="criminal">Criminal Defense</option>
+            <option value="business">Business/Corporate</option>
+            <option value="real-estate">Real Estate</option>
+            <option value="estate-planning">Estate Planning/Probate</option>
+            <option value="employment">Employment Law</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <button class="submit-btn" onclick="submitForm()">Get Your Free Compliance Audit</button>
+        <p class="form-note">No credit card required. No obligation. 100% confidential.</p>
+      </div>
+
+      <div class="form-success" id="form-success">
+        <div class="checkmark">&#10003;</div>
+        <h3>Audit Request Received</h3>
+        <p>We'll review your firm's compliance profile across all 10 State Bar areas and deliver your personalized scorecard within 24 hours. Check your inbox.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 RISK AREAS -->
+<section class="risk-section">
+  <div class="section-label">What We Check</div>
+  <h2>10 areas the State Bar disciplines for</h2>
+  <p>Our audit covers every compliance area that actually leads to suspension, probation, or disbarment in California.</p>
+
+  <div class="risk-grid">
+    <div class="risk-card red">
+      <div class="risk-icon">&#9888;</div>
+      <h3>IOLTA / Trust Account Management</h3>
+      <p>CTAPP registration, client fund segregation, annual self-assessment, and trust account reconciliation under Rule 1.15.</p>
+      <span class="penalty">Penalty: Disbarment</span>
+    </div>
+
+    <div class="risk-card red">
+      <div class="risk-icon">&#9888;</div>
+      <h3>MCLE Compliance & Tracking</h3>
+      <p>25 hours every 3 years including ethics, elimination of bias, and competence credits. False certification triggers full charges.</p>
+      <span class="penalty">Penalty: Suspension</span>
+    </div>
+
+    <div class="risk-card yellow">
+      <div class="risk-icon">&#9679;</div>
+      <h3>Competence & Diligence</h3>
+      <p>Rules 1.1 and 1.3 — the most-cited violations in California discipline cases. Patterns of neglect compound rapidly.</p>
+      <span class="penalty">Penalty: Suspension to Disbarment</span>
+    </div>
+
+    <div class="risk-card yellow">
+      <div class="risk-icon">&#9679;</div>
+      <h3>Client Communication</h3>
+      <p>Rule 1.4 requires prompt updates on significant developments. Communication failures are a top-3 complaint driver.</p>
+      <span class="penalty">Penalty: Reproval to Suspension</span>
+    </div>
+
+    <div class="risk-card red">
+      <div class="risk-icon">&#9888;</div>
+      <h3>Fee Agreement Compliance</h3>
+      <p>Rule 1.5 — written agreements required for contingency. Advance fees and flat fees must now be held in trust until earned.</p>
+      <span class="penalty">Penalty: Fee Disgorgement + Discipline</span>
+    </div>
+
+    <div class="risk-card yellow">
+      <div class="risk-icon">&#9679;</div>
+      <h3>Conflict of Interest Checks</h3>
+      <p>Rules 1.7, 1.8, 1.9, 1.10 — firms without formal conflict-checking systems face disqualification and malpractice exposure.</p>
+      <span class="penalty">Penalty: Disqualification + Discipline</span>
+    </div>
+
+    <div class="risk-card red">
+      <div class="risk-icon">&#9888;</div>
+      <h3>CCPA / Data Privacy</h3>
+      <p>Fines up to $7,988 per violation per consumer. The CA Privacy Protection Agency has hundreds of active investigations.</p>
+      <span class="penalty">Penalty: Up to $7,988/violation</span>
+    </div>
+
+    <div class="risk-card yellow">
+      <div class="risk-icon">&#9679;</div>
+      <h3>Rule 8.3 — Mandatory Reporting</h3>
+      <p>California's new "snitch rule" effective Aug 2023. Attorneys must report known misconduct. Most firms have zero compliance.</p>
+      <span class="penalty">Penalty: Discipline</span>
+    </div>
+
+    <div class="risk-card yellow">
+      <div class="risk-icon">&#9679;</div>
+      <h3>Client File Retention & Return</h3>
+      <p>Rule 1.16(e) — prompt return upon termination. No standard system at most firms creates persistent complaint exposure.</p>
+      <span class="penalty">Penalty: Discipline + Malpractice</span>
+    </div>
+
+    <div class="risk-card red">
+      <div class="risk-icon">&#9888;</div>
+      <h3>Annual State Bar Reporting</h3>
+      <p>License fees, CTAPP certification, MCLE reporting — miss a deadline and you're administratively suspended. Can't practice.</p>
+      <span class="penalty">Penalty: Involuntary Inactive Status</span>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="proof-section">
+  <div class="proof-inner">
+    <h2>The numbers don't lie</h2>
+    <div class="proof-stats">
+      <div class="proof-stat">
+        <span class="big red-text">21,000+</span>
+        <span class="desc">Discipline cases opened by the CA State Bar in FY 2025</span>
+      </div>
+      <div class="proof-stat">
+        <span class="big gold-text">$6.2M</span>
+        <span class="desc">Reimbursed to 355 victims of attorney misconduct</span>
+      </div>
+      <div class="proof-stat">
+        <span class="big red-text">69</span>
+        <span class="desc">Attorneys recommended for disbarment in FY 2025</span>
+      </div>
+      <div class="proof-stat">
+        <span class="big gold-text">41%</span>
+        <span class="desc">Investigation rate for solo practitioner complaints</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="cta-section">
+  <h2>Don't wait for the State Bar to find your gaps</h2>
+  <p>Our free compliance audit takes 5 minutes and checks your firm across every area the Bar actually disciplines for. Most firms find 3-4 issues they didn't know about.</p>
+  <a href="#audit-form" class="cta-button">Get Your Free Compliance Audit</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>&copy; 2026 Legal Hub Group. All rights reserved. | <a href="mailto:andrew@legalhubgroup.com">andrew@legalhubgroup.com</a></p>
+</footer>
+
+<script>
+function submitForm() {
+  const fname = document.getElementById('fname').value;
+  const lname = document.getElementById('lname').value;
+  const email = document.getElementById('email').value;
+  const firm = document.getElementById('firm').value;
+  const firmSize = document.getElementById('firm-size').value;
+  const practice = document.getElementById('practice').value;
+
+  if (!fname || !lname || !email || !firm || !firmSize || !practice) {
+    alert('Please fill in all fields to receive your audit.');
+    return;
+  }
+
+  // Send to Mailchimp or your backend
+  const data = { fname, lname, email, firm, firmSize, practice };
+  console.log('Audit request submitted:', data);
+
+  // You can replace this with an actual API call:
+  // fetch('YOUR_ENDPOINT', { method: 'POST', body: JSON.stringify(data) })
+
+  document.getElementById('form-fields').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+}
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+});
+</script>
+
+</body>
+</html>
