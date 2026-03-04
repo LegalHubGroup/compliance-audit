@@ -3,190 +3,932 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free State Bar Compliance Audit | Legal Hub Group</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Hye Art Glass | Custom Stained Glass & Art Glass Studio — Van Nuys, CA</title>
+<meta name="description" content="Hye Art Glass is a premier art glass studio in Van Nuys, California specializing in custom stained glass, glass restoration, decorative glass panels, and architectural glass installations.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #0B1D33;
-  --navy-light: #132B4A;
-  --gold: #C9A84C;
-  --gold-light: #E2C97E;
-  --white: #FFFFFF;
-  --gray-100: #F4F5F7;
-  --gray-200: #E1E4E8;
-  --gray-400: #8B95A5;
-  --gray-600: #4A5568;
-  --red: #D64545;
-  --yellow: #E5A913;
-  --green: #2D9B5A;
+  --deep: #1a1a2e;
+  --deep-mid: #16213e;
+  --accent: #c9a227;
+  --accent-light: #e0be50;
+  --accent-glow: rgba(201,162,39,0.15);
+  --white: #ffffff;
+  --off-white: #faf9f6;
+  --gray-50: #f7f6f3;
+  --gray-100: #edecea;
+  --gray-300: #c4c1ba;
+  --gray-500: #7a776f;
+  --gray-700: #3d3b37;
+  --glass-teal: #2a9d8f;
+  --glass-ruby: #9b2335;
+  --glass-amber: #d4860b;
+  --glass-cobalt: #264b96;
+  --glass-emerald: #2d6a4f;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+html { scroll-behavior: smooth; }
+
 body {
-  font-family: 'DM Sans', sans-serif;
-  color: var(--navy);
+  font-family: 'Inter', sans-serif;
+  color: var(--gray-700);
   background: var(--white);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-/* HERO */
-.hero {
-  background: var(--navy);
-  color: var(--white);
-  padding: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
-  border-radius: 50%;
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: -30%;
-  left: -10%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
-  border-radius: 50%;
-}
-
+/* ─── NAVIGATION ─── */
 .nav {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 28px 32px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 20px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
-  z-index: 2;
+  transition: all 0.3s ease;
 }
 
-.logo {
-  font-family: 'DM Serif Display', serif;
-  font-size: 22px;
+.nav.scrolled {
+  background: rgba(26,26,46,0.95);
+  backdrop-filter: blur(12px);
+  padding: 14px 40px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
   color: var(--white);
-  letter-spacing: -0.3px;
+  text-decoration: none;
+  letter-spacing: -0.5px;
 }
 
-.logo span { color: var(--gold); }
+.nav-logo span {
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+  list-style: none;
+}
+
+.nav-links a {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
 
 .nav-cta {
-  background: var(--gold);
-  color: var(--navy);
+  background: var(--accent) !important;
+  color: var(--deep) !important;
   padding: 10px 24px;
   border-radius: 6px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 14px;
-  transition: all 0.2s;
+  font-weight: 600 !important;
+  transition: all 0.2s !important;
 }
 
-.nav-cta:hover { background: var(--gold-light); }
+.nav-cta:hover {
+  background: var(--accent-light) !important;
+  transform: translateY(-1px);
+}
+
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.mobile-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--white);
+  margin: 5px 0;
+  transition: all 0.3s;
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: var(--deep);
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(42,157,143,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(155,35,53,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(201,162,39,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 20%, rgba(38,75,150,0.08) 0%, transparent 50%);
+}
+
+/* Stained glass mosaic pattern */
+.hero-mosaic {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image:
+    linear-gradient(60deg, var(--glass-teal) 25%, transparent 25%),
+    linear-gradient(-60deg, var(--glass-ruby) 25%, transparent 25%),
+    linear-gradient(60deg, transparent 75%, var(--glass-cobalt) 75%),
+    linear-gradient(-60deg, transparent 75%, var(--glass-amber) 75%);
+  background-size: 80px 140px;
+  background-position: 0 0, 0 0, 40px 70px, 40px 70px;
+}
 
 .hero-content {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 60px 32px 80px;
   position: relative;
   z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 140px 40px 100px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 80px;
   align-items: center;
 }
 
+.hero-text {
+  max-width: 580px;
+}
+
 .hero-badge {
-  display: inline-block;
-  background: rgba(201,168,76,0.15);
-  border: 1px solid rgba(201,168,76,0.3);
-  color: var(--gold-light);
-  padding: 6px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-glow);
+  border: 1px solid rgba(201,162,39,0.25);
+  color: var(--accent-light);
+  padding: 8px 18px;
   border-radius: 100px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.5px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s ease both;
 }
 
 .hero h1 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 48px;
-  line-height: 1.15;
-  letter-spacing: -0.5px;
+  font-family: 'Playfair Display', serif;
+  font-size: 56px;
+  line-height: 1.12;
+  color: var(--white);
+  letter-spacing: -1px;
   margin-bottom: 24px;
+  animation: fadeUp 0.6s ease 0.1s both;
 }
 
 .hero h1 em {
   font-style: normal;
-  color: var(--gold);
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.hero p {
+.hero-desc {
   font-size: 18px;
-  line-height: 1.7;
-  color: var(--gray-400);
-  margin-bottom: 12px;
-  max-width: 500px;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 40px;
+  max-width: 480px;
+  animation: fadeUp 0.6s ease 0.2s both;
 }
 
-.hero-stat-row {
+.hero-btns {
   display: flex;
-  gap: 32px;
-  margin-top: 36px;
-  padding-top: 36px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  gap: 16px;
+  animation: fadeUp 0.6s ease 0.3s both;
 }
 
-.hero-stat {
-  text-align: left;
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: var(--deep);
+  padding: 16px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  transition: all 0.25s;
+  border: none;
+  cursor: pointer;
 }
 
-.hero-stat .number {
-  font-family: 'DM Serif Display', serif;
+.btn-primary:hover {
+  background: var(--accent-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(201,162,39,0.3);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--white);
+  padding: 16px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  transition: all 0.25s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Glass showcase in hero */
+.hero-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  animation: fadeUp 0.8s ease 0.3s both;
+}
+
+.glass-tile {
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  overflow: hidden;
+  min-height: 180px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.glass-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.glass-tile-icon {
   font-size: 36px;
-  color: var(--gold);
-  display: block;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+}
+
+.glass-tile h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.glass-tile p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 4px;
+}
+
+.tile-stained {
+  background: linear-gradient(135deg, #264b96 0%, #2a9d8f 50%, #2d6a4f 100%);
+  grid-row: span 2;
+}
+
+.tile-fused {
+  background: linear-gradient(135deg, #9b2335, #d4860b);
+}
+
+.tile-restore {
+  background: linear-gradient(135deg, #1a1a2e, #3d3b37);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ─── ABOUT SECTION ─── */
+.about {
+  padding: 120px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-visual {
+  position: relative;
+}
+
+.about-pattern {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--glass-teal), var(--glass-cobalt), var(--glass-emerald));
+  position: relative;
+  overflow: hidden;
+}
+
+.about-pattern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.15) 0%, transparent 40%),
+    linear-gradient(240deg, rgba(0,0,0,0.2) 0%, transparent 40%);
+}
+
+.about-pattern-inner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 3px;
+  padding: 3px;
+  opacity: 0.4;
+}
+
+.about-pattern-inner span {
+  border-radius: 4px;
+  background: rgba(255,255,255,0.15);
+}
+
+.about-pattern-inner span:nth-child(odd) {
+  background: rgba(255,255,255,0.25);
+}
+
+.about-accent-card {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.about-accent-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--accent);
   line-height: 1;
 }
 
-.hero-stat .label {
-  font-size: 13px;
-  color: var(--gray-400);
-  margin-top: 6px;
-  display: block;
+.about-accent-text {
+  font-size: 14px;
+  color: var(--gray-500);
   line-height: 1.4;
 }
 
-/* FORM CARD */
-.form-card {
+.section-label {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.about-text h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  color: var(--gray-700);
+  letter-spacing: -0.5px;
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+.about-text p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--gray-500);
+  margin-bottom: 20px;
+}
+
+.about-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.about-feat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+.about-feat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--accent-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* ─── SERVICES ─── */
+.services {
+  background: var(--off-white);
+  padding: 120px 40px;
+}
+
+.services-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 64px;
+}
+
+.section-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  color: var(--gray-700);
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.section-header p {
+  font-size: 17px;
+  color: var(--gray-500);
+  line-height: 1.7;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.service-card {
   background: var(--white);
   border-radius: 16px;
-  padding: 40px 36px;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+  padding: 40px 32px;
+  transition: all 0.3s;
+  border: 1.5px solid transparent;
+  position: relative;
+  overflow: hidden;
 }
 
-.form-card h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 24px;
-  color: var(--navy);
-  margin-bottom: 6px;
+.service-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--glass-teal), var(--glass-cobalt));
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
-.form-card .subtitle {
+.service-card:nth-child(2)::after { background: linear-gradient(90deg, var(--glass-ruby), var(--glass-amber)); }
+.service-card:nth-child(3)::after { background: linear-gradient(90deg, var(--glass-emerald), var(--glass-teal)); }
+.service-card:nth-child(4)::after { background: linear-gradient(90deg, var(--glass-cobalt), var(--glass-ruby)); }
+.service-card:nth-child(5)::after { background: linear-gradient(90deg, var(--glass-amber), var(--accent)); }
+.service-card:nth-child(6)::after { background: linear-gradient(90deg, var(--accent), var(--glass-emerald)); }
+
+.service-card:hover {
+  border-color: var(--gray-100);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+  transform: translateY(-4px);
+}
+
+.service-card:hover::after {
+  opacity: 1;
+}
+
+.service-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 24px;
+}
+
+.service-card:nth-child(1) .service-icon { background: rgba(42,157,143,0.1); }
+.service-card:nth-child(2) .service-icon { background: rgba(155,35,53,0.1); }
+.service-card:nth-child(3) .service-icon { background: rgba(45,106,79,0.1); }
+.service-card:nth-child(4) .service-icon { background: rgba(38,75,150,0.1); }
+.service-card:nth-child(5) .service-icon { background: rgba(212,134,11,0.1); }
+.service-card:nth-child(6) .service-icon { background: rgba(201,162,39,0.1); }
+
+.service-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--gray-700);
+  margin-bottom: 12px;
+}
+
+.service-card p {
   font-size: 14px;
-  color: var(--gray-400);
+  color: var(--gray-500);
+  line-height: 1.7;
+}
+
+/* ─── GALLERY ─── */
+.gallery {
+  padding: 120px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 240px);
+  gap: 16px;
+}
+
+.gallery-item {
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.gallery-item:hover {
+  transform: scale(1.02);
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-item:nth-child(1) {
+  grid-column: span 2;
+  grid-row: span 2;
+  background: linear-gradient(135deg, #264b96, #2a9d8f, #2d6a4f, #d4860b);
+}
+
+.gallery-item:nth-child(2) {
+  background: linear-gradient(135deg, #9b2335, #d4860b);
+}
+
+.gallery-item:nth-child(3) {
+  background: linear-gradient(135deg, #2d6a4f, #264b96);
+}
+
+.gallery-item:nth-child(4) {
+  grid-column: span 2;
+  background: linear-gradient(135deg, #1a1a2e, #264b96, #9b2335);
+}
+
+.gallery-item-inner {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+}
+
+/* Simulated glass texture patterns */
+.gallery-item:nth-child(1) .gallery-item-inner {
+  background:
+    repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.08) 20px, rgba(255,255,255,0.08) 22px),
+    repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255,255,255,0.05) 30px, rgba(255,255,255,0.05) 32px);
+}
+
+.gallery-item:nth-child(2) .gallery-item-inner {
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
+}
+
+.gallery-item:nth-child(3) .gallery-item-inner {
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 15px, rgba(255,255,255,0.06) 15px, rgba(255,255,255,0.06) 17px);
+}
+
+.gallery-item:nth-child(4) .gallery-item-inner {
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(42,157,143,0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 50%, rgba(155,35,53,0.2) 0%, transparent 50%);
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26,26,46,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.gallery-overlay span {
+  color: var(--white);
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  padding: 12px 24px;
+  border: 1.5px solid rgba(255,255,255,0.4);
+  border-radius: 8px;
+}
+
+/* ─── PROCESS ─── */
+.process {
+  background: var(--deep);
+  padding: 120px 40px;
+  color: var(--white);
+}
+
+.process-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.process .section-label { color: var(--accent-light); }
+.process .section-header h2 { color: var(--white); }
+.process .section-header p { color: rgba(255,255,255,0.5); }
+
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  margin-top: 20px;
+}
+
+.process-step {
+  text-align: center;
+  position: relative;
+}
+
+.process-step::after {
+  content: '';
+  position: absolute;
+  top: 36px;
+  right: -16px;
+  width: 32px;
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+}
+
+.process-step:last-child::after { display: none; }
+
+.step-num {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(201,162,39,0.1);
+  border: 2px solid rgba(201,162,39,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--accent);
+  margin: 0 auto 24px;
+}
+
+.process-step h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.process-step p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.7;
+}
+
+/* ─── TESTIMONIALS ─── */
+.testimonials {
+  padding: 120px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.testimonial-card {
+  background: var(--gray-50);
+  border-radius: 16px;
+  padding: 36px 32px;
+  transition: all 0.3s;
+}
+
+.testimonial-card:hover {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  transform: translateY(-2px);
+}
+
+.testimonial-stars {
+  color: var(--accent);
+  font-size: 16px;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+
+.testimonial-card blockquote {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--gray-700);
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.testimonial-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--white);
+}
+
+.testimonial-card:nth-child(1) .testimonial-avatar { background: var(--glass-teal); }
+.testimonial-card:nth-child(2) .testimonial-avatar { background: var(--glass-cobalt); }
+.testimonial-card:nth-child(3) .testimonial-avatar { background: var(--glass-ruby); }
+
+.testimonial-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--gray-700);
+}
+
+.testimonial-role {
+  font-size: 13px;
+  color: var(--gray-500);
+}
+
+/* ─── CONTACT ─── */
+.contact {
+  background: var(--off-white);
+  padding: 120px 40px;
+}
+
+.contact-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.contact-info h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  color: var(--gray-700);
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.contact-info > p {
+  font-size: 16px;
+  color: var(--gray-500);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.contact-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.contact-item-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--accent-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.contact-item h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gray-700);
+  margin-bottom: 4px;
+}
+
+.contact-item p {
+  font-size: 14px;
+  color: var(--gray-500);
+  line-height: 1.5;
+}
+
+.contact-item a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-item a:hover {
+  text-decoration: underline;
+}
+
+.contact-hours {
+  margin-top: 40px;
+  padding: 24px;
+  background: var(--white);
+  border-radius: 12px;
+  border: 1.5px solid var(--gray-100);
+}
+
+.contact-hours h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gray-700);
+  margin-bottom: 12px;
+}
+
+.contact-hours-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--gray-500);
+  padding: 6px 0;
+}
+
+.contact-hours-row:not(:last-child) {
+  border-bottom: 1px solid var(--gray-100);
+}
+
+/* Contact Form */
+.contact-form-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 44px 40px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+}
+
+.contact-form-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--gray-700);
+  margin-bottom: 8px;
+}
+
+.contact-form-card .form-subtitle {
+  font-size: 14px;
+  color: var(--gray-500);
   margin-bottom: 28px;
 }
 
@@ -198,33 +940,37 @@ body {
   display: block;
   font-size: 13px;
   font-weight: 600;
-  color: var(--gray-600);
+  color: var(--gray-700);
   margin-bottom: 6px;
   letter-spacing: 0.3px;
 }
 
 .form-group input,
-.form-group select {
+.form-group select,
+.form-group textarea {
   width: 100%;
-  padding: 12px 16px;
-  border: 1.5px solid var(--gray-200);
+  padding: 13px 16px;
+  border: 1.5px solid var(--gray-100);
   border-radius: 8px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 15px;
-  color: var(--navy);
-  transition: border-color 0.2s;
-  background: var(--gray-100);
+  color: var(--gray-700);
+  background: var(--gray-50);
+  transition: all 0.2s;
 }
 
 .form-group input:focus,
-.form-group select:focus {
+.form-group select:focus,
+.form-group textarea:focus {
   outline: none;
-  border-color: var(--gold);
+  border-color: var(--accent);
   background: var(--white);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
-.form-group input::placeholder {
-  color: var(--gray-400);
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
 }
 
 .form-row {
@@ -236,564 +982,687 @@ body {
 .submit-btn {
   width: 100%;
   padding: 16px;
-  background: var(--gold);
-  color: var(--navy);
+  background: var(--accent);
+  color: var(--deep);
   border: none;
   border-radius: 8px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s;
   margin-top: 8px;
-  letter-spacing: 0.3px;
 }
 
 .submit-btn:hover {
-  background: var(--gold-light);
+  background: var(--accent-light);
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(201,168,76,0.4);
+  box-shadow: 0 6px 20px rgba(201,162,39,0.3);
 }
 
 .form-note {
   text-align: center;
   font-size: 12px;
-  color: var(--gray-400);
+  color: var(--gray-500);
   margin-top: 14px;
 }
 
-/* RISK AREAS */
-.risk-section {
-  padding: 100px 32px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.section-label {
-  display: inline-block;
-  background: rgba(201,168,76,0.1);
-  color: var(--gold);
-  padding: 6px 16px;
-  border-radius: 100px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-
-.risk-section h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 40px;
-  letter-spacing: -0.5px;
-  margin-bottom: 16px;
-}
-
-.risk-section > p {
-  font-size: 18px;
-  color: var(--gray-600);
-  max-width: 600px;
-  line-height: 1.7;
-  margin-bottom: 56px;
-}
-
-.risk-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-.risk-card {
-  border: 1.5px solid var(--gray-200);
-  border-radius: 12px;
-  padding: 28px 28px;
-  transition: all 0.25s;
-  position: relative;
-  overflow: hidden;
-}
-
-.risk-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  border-radius: 12px 0 0 12px;
-}
-
-.risk-card.red::before { background: var(--red); }
-.risk-card.yellow::before { background: var(--yellow); }
-.risk-card.green::before { background: var(--green); }
-
-.risk-card:hover {
-  border-color: var(--gold);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-  transform: translateY(-2px);
-}
-
-.risk-card .risk-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  margin-bottom: 16px;
-}
-
-.risk-card.red .risk-icon { background: rgba(214,69,69,0.1); }
-.risk-card.yellow .risk-icon { background: rgba(229,169,19,0.1); }
-.risk-card.green .risk-icon { background: rgba(45,155,90,0.1); }
-
-.risk-card h3 {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.risk-card p {
-  font-size: 14px;
-  color: var(--gray-600);
-  line-height: 1.6;
-}
-
-.risk-card .penalty {
-  display: inline-block;
-  margin-top: 12px;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 4px;
-  letter-spacing: 0.3px;
-}
-
-.risk-card.red .penalty { background: rgba(214,69,69,0.1); color: var(--red); }
-.risk-card.yellow .penalty { background: rgba(229,169,19,0.1); color: var(--yellow); }
-
-/* SOCIAL PROOF */
-.proof-section {
-  background: var(--gray-100);
-  padding: 80px 32px;
-}
-
-.proof-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.proof-inner h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 36px;
-  margin-bottom: 48px;
-}
-
-.proof-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
-}
-
-.proof-stat {
-  background: var(--white);
-  border-radius: 12px;
-  padding: 32px 20px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-}
-
-.proof-stat .big {
-  font-family: 'DM Serif Display', serif;
-  font-size: 42px;
-  color: var(--navy);
-  display: block;
-  line-height: 1;
-}
-
-.proof-stat .big.red-text { color: var(--red); }
-.proof-stat .big.gold-text { color: var(--gold); }
-
-.proof-stat .desc {
-  font-size: 14px;
-  color: var(--gray-600);
-  margin-top: 10px;
-  display: block;
-  line-height: 1.5;
-}
-
-/* CTA SECTION */
-.cta-section {
-  background: var(--navy);
-  padding: 80px 32px;
-  text-align: center;
-}
-
-.cta-section h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 40px;
-  color: var(--white);
-  margin-bottom: 16px;
-}
-
-.cta-section p {
-  font-size: 18px;
-  color: var(--gray-400);
-  margin-bottom: 36px;
-  max-width: 550px;
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.7;
-}
-
-.cta-button {
-  display: inline-block;
-  background: var(--gold);
-  color: var(--navy);
-  padding: 18px 48px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 17px;
-  transition: all 0.2s;
-  letter-spacing: 0.3px;
-}
-
-.cta-button:hover {
-  background: var(--gold-light);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(201,168,76,0.35);
-}
-
-/* FOOTER */
-.footer {
-  background: var(--navy-light);
-  padding: 40px 32px;
-  text-align: center;
-}
-
-.footer p {
-  font-size: 14px;
-  color: var(--gray-400);
-}
-
-.footer a {
-  color: var(--gold);
-  text-decoration: none;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .hero-content {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    padding: 40px 20px 60px;
-  }
-  .hero h1 { font-size: 34px; }
-  .hero-stat-row { gap: 24px; }
-  .hero-stat .number { font-size: 28px; }
-  .risk-grid { grid-template-columns: 1fr; }
-  .proof-stats { grid-template-columns: repeat(2, 1fr); }
-  .form-row { grid-template-columns: 1fr; }
-  .risk-section h2, .proof-inner h2, .cta-section h2 { font-size: 30px; }
-  .nav { padding: 20px; }
-  .form-card { padding: 28px 24px; }
-}
-
-/* ANIMATIONS */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.hero-badge { animation: fadeUp 0.6s ease both; }
-.hero h1 { animation: fadeUp 0.6s ease 0.1s both; }
-.hero p { animation: fadeUp 0.6s ease 0.2s both; }
-.hero-stat-row { animation: fadeUp 0.6s ease 0.3s both; }
-.form-card { animation: fadeUp 0.7s ease 0.2s both; }
-
-/* SUCCESS STATE */
 .form-success {
   display: none;
   text-align: center;
-  padding: 40px 20px;
+  padding: 48px 20px;
 }
 
-.form-success .checkmark {
-  width: 64px;
-  height: 64px;
-  background: rgba(45,155,90,0.1);
+.form-success-icon {
+  width: 72px;
+  height: 72px;
+  background: rgba(45,106,79,0.1);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
-  font-size: 28px;
+  font-size: 32px;
 }
 
 .form-success h3 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 22px;
-  margin-bottom: 10px;
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--gray-700);
+  margin-bottom: 12px;
 }
 
 .form-success p {
-  font-size: 14px;
-  color: var(--gray-600);
+  font-size: 15px;
+  color: var(--gray-500);
   line-height: 1.6;
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  background: var(--deep);
+  padding: 60px 40px 40px;
+  color: rgba(255,255,255,0.5);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+
+.footer-brand {
+  max-width: 300px;
+}
+
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.footer-logo span {
+  color: var(--accent);
+}
+
+.footer-brand p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.footer-col h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col li {
+  margin-bottom: 10px;
+}
+
+.footer-col a {
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover {
+  color: var(--accent);
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 48px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.footer-bottom a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  .hero-content { grid-template-columns: 1fr; gap: 48px; }
+  .hero h1 { font-size: 44px; }
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-steps { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+  .process-step::after { display: none; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 200px); }
+  .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+  .gallery-item:nth-child(4) { grid-column: span 2; }
+  .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+@media (max-width: 768px) {
+  .nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+  .mobile-toggle { display: block; }
+
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(26,26,46,0.98);
+    padding: 24px 20px;
+    gap: 16px;
+  }
+
+  .hero-content { padding: 120px 20px 60px; }
+  .hero h1 { font-size: 36px; }
+  .hero-desc { font-size: 16px; }
+  .hero-btns { flex-direction: column; }
+  .hero-showcase { grid-template-columns: 1fr 1fr; }
+  .tile-stained { grid-row: span 1; }
+
+  .about, .gallery, .testimonials { padding: 80px 20px; }
+  .services, .process, .contact { padding: 80px 20px; }
+
+  .about-text h2, .section-header h2, .contact-info h2 { font-size: 32px; }
+  .about-features { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .process-steps { grid-template-columns: 1fr; }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, 180px); }
+  .gallery-item:nth-child(1), .gallery-item:nth-child(4) { grid-column: span 1; }
+  .form-row { grid-template-columns: 1fr; }
+  .contact-form-card { padding: 28px 24px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
 }
 </style>
 </head>
 <body>
 
+<!-- NAVIGATION -->
+<nav class="nav" id="navbar">
+  <a href="#" class="nav-logo">Hye Art <span>Glass</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
 <!-- HERO -->
 <section class="hero">
-  <nav class="nav">
-    <div class="logo">Legal Hub <span>Group</span></div>
-    <a href="#audit-form" class="nav-cta">Get Free Audit</a>
-  </nav>
-
+  <div class="hero-bg"></div>
+  <div class="hero-mosaic"></div>
   <div class="hero-content">
     <div class="hero-text">
-      <div class="hero-badge">Free Compliance Audit</div>
-      <h1>Is your firm ready for a <em>State Bar audit?</em></h1>
-      <p>The California State Bar opened 21,000+ discipline cases last year and just started randomly auditing firms' trust accounts with CPAs. Most firms we check have 3-4 compliance gaps they didn't know about.</p>
-      <p>Find yours in 5 minutes — before the Bar does.</p>
+      <div class="hero-badge">Van Nuys, California</div>
+      <h1>Artistry in glass, <em>crafted by hand</em></h1>
+      <p class="hero-desc">Hye Art Glass is a premier art glass studio specializing in custom stained glass windows, decorative panels, glass restoration, and architectural installations throughout the greater Los Angeles area.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary">Request a Free Consultation</a>
+        <a href="#gallery" class="btn-secondary">View Our Work</a>
+      </div>
+    </div>
 
-      <div class="hero-stat-row">
-        <div class="hero-stat">
-          <span class="number">21,000+</span>
-          <span class="label">Discipline cases<br>opened FY 2025</span>
+    <div class="hero-showcase">
+      <div class="glass-tile tile-stained">
+        <div class="glass-tile-icon">&#9670;</div>
+        <h3>Custom Stained Glass</h3>
+        <p>Windows, panels & doors</p>
+      </div>
+      <div class="glass-tile tile-fused">
+        <div class="glass-tile-icon">&#10022;</div>
+        <h3>Fused Glass Art</h3>
+        <p>Sculptures & wall art</p>
+      </div>
+      <div class="glass-tile tile-restore">
+        <div class="glass-tile-icon">&#9881;</div>
+        <h3>Glass Restoration</h3>
+        <p>Historic & antique repair</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-visual fade-in">
+      <div class="about-pattern">
+        <div class="about-pattern-inner">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
         </div>
-        <div class="hero-stat">
-          <span class="number">41%</span>
-          <span class="label">Solo/small firm<br>investigation rate</span>
+      </div>
+      <div class="about-accent-card">
+        <div class="about-accent-num">20+</div>
+        <div class="about-accent-text">Years of glass<br>artistry experience</div>
+      </div>
+    </div>
+
+    <div class="about-text fade-in">
+      <div class="section-label">About Our Studio</div>
+      <h2>Where tradition meets creative vision</h2>
+      <p>Founded in Van Nuys, Hye Art Glass brings together generations of glass artistry with contemporary design. Our studio is dedicated to creating one-of-a-kind glass pieces that transform spaces with light, color, and beauty.</p>
+      <p>From churches and historic buildings to modern homes and commercial spaces, every project receives the same meticulous attention to detail and passion for the craft that has defined our work for over two decades.</p>
+
+      <div class="about-features">
+        <div class="about-feat">
+          <div class="about-feat-icon">&#9733;</div>
+          <span>Master Craftsmanship</span>
         </div>
-        <div class="hero-stat">
-          <span class="number">69</span>
-          <span class="label">Attorneys disbarred<br>in FY 2025</span>
+        <div class="about-feat">
+          <div class="about-feat-icon">&#9672;</div>
+          <span>Custom Designs</span>
+        </div>
+        <div class="about-feat">
+          <div class="about-feat-icon">&#9881;</div>
+          <span>Expert Restoration</span>
+        </div>
+        <div class="about-feat">
+          <div class="about-feat-icon">&#10003;</div>
+          <span>Fully Insured</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-inner">
+    <div class="section-header fade-in">
+      <div class="section-label">Our Services</div>
+      <h2>Complete art glass solutions</h2>
+      <p>From initial concept to final installation, we handle every aspect of your art glass project with expert precision.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <div class="service-icon">&#9670;</div>
+        <h3>Custom Stained Glass</h3>
+        <p>Bespoke stained glass windows and panels designed and crafted to your exact specifications. We work with you from concept sketches to the finished, installed piece.</p>
+      </div>
+
+      <div class="service-card fade-in">
+        <div class="service-icon">&#10022;</div>
+        <h3>Fused Glass Art</h3>
+        <p>Kiln-formed glass art pieces including bowls, wall panels, sculptures, and decorative accents. Each piece is a unique expression of color and texture.</p>
+      </div>
+
+      <div class="service-card fade-in">
+        <div class="service-icon">&#9881;</div>
+        <h3>Glass Restoration</h3>
+        <p>Expert restoration and repair of antique and historic stained glass windows. We preserve original artistry while reinforcing structural integrity.</p>
+      </div>
+
+      <div class="service-card fade-in">
+        <div class="service-icon">&#9632;</div>
+        <h3>Architectural Glass</h3>
+        <p>Large-scale architectural glass installations for commercial buildings, hotels, restaurants, and public spaces. Designed for maximum visual impact.</p>
+      </div>
+
+      <div class="service-card fade-in">
+        <div class="service-icon">&#9711;</div>
+        <h3>Glass Etching & Carving</h3>
+        <p>Precision sandblasting and hand-carving techniques to create detailed designs on flat glass surfaces for doors, partitions, and decorative panels.</p>
+      </div>
+
+      <div class="service-card fade-in">
+        <div class="service-icon">&#9678;</div>
+        <h3>Leaded Glass Panels</h3>
+        <p>Traditional lead came and copper foil techniques for cabinet doors, transoms, sidelights, and decorative window inserts in any style.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="section-header fade-in">
+    <div class="section-label">Our Portfolio</div>
+    <h2>Featured work</h2>
+    <p>A selection of our custom art glass projects for residential, commercial, and sacred spaces.</p>
+  </div>
+
+  <div class="gallery-grid fade-in">
+    <div class="gallery-item">
+      <div class="gallery-item-inner"></div>
+      <div class="gallery-overlay"><span>Stained Glass Window</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-item-inner"></div>
+      <div class="gallery-overlay"><span>Fused Glass Panel</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-item-inner"></div>
+      <div class="gallery-overlay"><span>Etched Glass Door</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-item-inner"></div>
+      <div class="gallery-overlay"><span>Architectural Installation</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-inner">
+    <div class="section-header fade-in">
+      <div class="section-label">How We Work</div>
+      <h2>From vision to reality</h2>
+      <p>Our proven process ensures your art glass project is completed on time, on budget, and beyond expectations.</p>
+    </div>
+
+    <div class="process-steps">
+      <div class="process-step fade-in">
+        <div class="step-num">1</div>
+        <h3>Consultation</h3>
+        <p>We meet with you to understand your vision, assess the space, and discuss design possibilities, materials, and budget.</p>
+      </div>
+      <div class="process-step fade-in">
+        <div class="step-num">2</div>
+        <h3>Design</h3>
+        <p>Our artists create detailed renderings and color studies for your approval. We refine every detail until the design is perfect.</p>
+      </div>
+      <div class="process-step fade-in">
+        <div class="step-num">3</div>
+        <h3>Crafting</h3>
+        <p>Using traditional techniques and premium materials, we hand-cut, assemble, and finish each piece in our Van Nuys studio.</p>
+      </div>
+      <div class="process-step fade-in">
+        <div class="step-num">4</div>
+        <h3>Installation</h3>
+        <p>Our team professionally installs your finished piece with meticulous care, ensuring perfect fit and lasting beauty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="section-header fade-in">
+    <div class="section-label">Testimonials</div>
+    <h2>What our clients say</h2>
+    <p>We take pride in delivering exceptional craftsmanship and a seamless experience for every client.</p>
+  </div>
+
+  <div class="testimonial-grid">
+    <div class="testimonial-card fade-in">
+      <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <blockquote>"The stained glass window Hye Art Glass created for our home is absolutely breathtaking. The craftsmanship is impeccable and the colors come alive with the morning sunlight. Truly a work of art."</blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">M</div>
+        <div>
+          <div class="testimonial-name">Maria S.</div>
+          <div class="testimonial-role">Residential Client, Encino</div>
         </div>
       </div>
     </div>
 
-    <!-- FORM -->
-    <div class="form-card" id="audit-form">
-      <div id="form-fields">
-        <h2>Get Your Free Audit</h2>
-        <p class="subtitle">Takes 2 minutes. Results delivered within 24 hours.</p>
+    <div class="testimonial-card fade-in">
+      <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <blockquote>"They restored our church's 80-year-old stained glass windows with incredible care and respect for the original artistry. The congregation was moved to tears when they saw the results."</blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">R</div>
+        <div>
+          <div class="testimonial-name">Rev. David K.</div>
+          <div class="testimonial-role">St. Gregory Church, Pasadena</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card fade-in">
+      <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <blockquote>"We hired Hye Art Glass for a large-scale installation in our hotel lobby. The design process was collaborative, the timeline was respected, and the final piece is a stunning centerpiece."</blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">A</div>
+        <div>
+          <div class="testimonial-name">Alex T.</div>
+          <div class="testimonial-role">Commercial Client, Los Angeles</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-info fade-in">
+      <div class="section-label">Get In Touch</div>
+      <h2>Let's bring your vision to life</h2>
+      <p>Whether you have a specific design in mind or need creative guidance, we'd love to hear about your project. Contact us for a free consultation and estimate.</p>
+
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-item-icon">&#9873;</div>
+          <div>
+            <h4>Visit Our Studio</h4>
+            <p>Van Nuys, CA 91405<br>Los Angeles County</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">&#9742;</div>
+          <div>
+            <h4>Call Us</h4>
+            <p><a href="tel:+18185551234">(818) 555-1234</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">&#9993;</div>
+          <div>
+            <h4>Email Us</h4>
+            <p><a href="mailto:info@hyeartglass.com">info@hyeartglass.com</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-hours">
+        <h4>Studio Hours</h4>
+        <div class="contact-hours-row">
+          <span>Monday - Friday</span>
+          <span>9:00 AM - 5:00 PM</span>
+        </div>
+        <div class="contact-hours-row">
+          <span>Saturday</span>
+          <span>10:00 AM - 3:00 PM</span>
+        </div>
+        <div class="contact-hours-row">
+          <span>Sunday</span>
+          <span>By Appointment</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-card fade-in" id="contact-form">
+      <div id="formFields">
+        <h3>Request a Free Quote</h3>
+        <p class="form-subtitle">Tell us about your project and we'll get back to you within 24 hours.</p>
 
         <div class="form-row">
           <div class="form-group">
             <label>First Name</label>
-            <input type="text" placeholder="Andranik" id="fname">
+            <input type="text" placeholder="Your first name" id="fname">
           </div>
           <div class="form-group">
             <label>Last Name</label>
-            <input type="text" placeholder="Gyulasaryan" id="lname">
+            <input type="text" placeholder="Your last name" id="lname">
           </div>
         </div>
 
         <div class="form-group">
           <label>Email Address</label>
-          <input type="email" placeholder="you@yourfirm.com" id="email">
+          <input type="email" placeholder="you@example.com" id="email">
         </div>
 
         <div class="form-group">
-          <label>Firm Name</label>
-          <input type="text" placeholder="Your Law Firm" id="firm">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="(818) 555-1234" id="phone">
         </div>
 
         <div class="form-group">
-          <label>Firm Size</label>
-          <select id="firm-size">
-            <option value="">Select firm size</option>
-            <option value="solo">Solo Practitioner</option>
-            <option value="2-5">2-5 Attorneys</option>
-            <option value="6-15">6-15 Attorneys</option>
-            <option value="16-50">16-50 Attorneys</option>
-            <option value="50+">50+ Attorneys</option>
+          <label>Project Type</label>
+          <select id="projectType">
+            <option value="">Select a project type</option>
+            <option value="stained-glass">Custom Stained Glass</option>
+            <option value="fused-glass">Fused Glass Art</option>
+            <option value="restoration">Glass Restoration</option>
+            <option value="architectural">Architectural Installation</option>
+            <option value="etching">Glass Etching & Carving</option>
+            <option value="leaded">Leaded Glass Panels</option>
+            <option value="other">Other / Not Sure</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label>Primary Practice Area</label>
-          <select id="practice">
-            <option value="">Select practice area</option>
-            <option value="family">Family Law</option>
-            <option value="immigration">Immigration</option>
-            <option value="personal-injury">Personal Injury</option>
-            <option value="criminal">Criminal Defense</option>
-            <option value="business">Business/Corporate</option>
-            <option value="real-estate">Real Estate</option>
-            <option value="estate-planning">Estate Planning/Probate</option>
-            <option value="employment">Employment Law</option>
-            <option value="other">Other</option>
-          </select>
+          <label>Project Details</label>
+          <textarea placeholder="Tell us about your project — dimensions, style preferences, timeline, etc." id="details"></textarea>
         </div>
 
-        <button class="submit-btn" onclick="submitForm()">Get Your Free Compliance Audit</button>
-        <p class="form-note">No credit card required. No obligation. 100% confidential.</p>
+        <button class="submit-btn" onclick="submitForm()">Send My Request</button>
+        <p class="form-note">Free consultation. No obligation. We respond within 24 hours.</p>
       </div>
 
-      <div class="form-success" id="form-success">
-        <div class="checkmark">&#10003;</div>
-        <h3>Audit Request Received</h3>
-        <p>We'll review your firm's compliance profile across all 10 State Bar areas and deliver your personalized scorecard within 24 hours. Check your inbox.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 10 RISK AREAS -->
-<section class="risk-section">
-  <div class="section-label">What We Check</div>
-  <h2>10 areas the State Bar disciplines for</h2>
-  <p>Our audit covers every compliance area that actually leads to suspension, probation, or disbarment in California.</p>
-
-  <div class="risk-grid">
-    <div class="risk-card red">
-      <div class="risk-icon">&#9888;</div>
-      <h3>IOLTA / Trust Account Management</h3>
-      <p>CTAPP registration, client fund segregation, annual self-assessment, and trust account reconciliation under Rule 1.15.</p>
-      <span class="penalty">Penalty: Disbarment</span>
-    </div>
-
-    <div class="risk-card red">
-      <div class="risk-icon">&#9888;</div>
-      <h3>MCLE Compliance & Tracking</h3>
-      <p>25 hours every 3 years including ethics, elimination of bias, and competence credits. False certification triggers full charges.</p>
-      <span class="penalty">Penalty: Suspension</span>
-    </div>
-
-    <div class="risk-card yellow">
-      <div class="risk-icon">&#9679;</div>
-      <h3>Competence & Diligence</h3>
-      <p>Rules 1.1 and 1.3 — the most-cited violations in California discipline cases. Patterns of neglect compound rapidly.</p>
-      <span class="penalty">Penalty: Suspension to Disbarment</span>
-    </div>
-
-    <div class="risk-card yellow">
-      <div class="risk-icon">&#9679;</div>
-      <h3>Client Communication</h3>
-      <p>Rule 1.4 requires prompt updates on significant developments. Communication failures are a top-3 complaint driver.</p>
-      <span class="penalty">Penalty: Reproval to Suspension</span>
-    </div>
-
-    <div class="risk-card red">
-      <div class="risk-icon">&#9888;</div>
-      <h3>Fee Agreement Compliance</h3>
-      <p>Rule 1.5 — written agreements required for contingency. Advance fees and flat fees must now be held in trust until earned.</p>
-      <span class="penalty">Penalty: Fee Disgorgement + Discipline</span>
-    </div>
-
-    <div class="risk-card yellow">
-      <div class="risk-icon">&#9679;</div>
-      <h3>Conflict of Interest Checks</h3>
-      <p>Rules 1.7, 1.8, 1.9, 1.10 — firms without formal conflict-checking systems face disqualification and malpractice exposure.</p>
-      <span class="penalty">Penalty: Disqualification + Discipline</span>
-    </div>
-
-    <div class="risk-card red">
-      <div class="risk-icon">&#9888;</div>
-      <h3>CCPA / Data Privacy</h3>
-      <p>Fines up to $7,988 per violation per consumer. The CA Privacy Protection Agency has hundreds of active investigations.</p>
-      <span class="penalty">Penalty: Up to $7,988/violation</span>
-    </div>
-
-    <div class="risk-card yellow">
-      <div class="risk-icon">&#9679;</div>
-      <h3>Rule 8.3 — Mandatory Reporting</h3>
-      <p>California's new "snitch rule" effective Aug 2023. Attorneys must report known misconduct. Most firms have zero compliance.</p>
-      <span class="penalty">Penalty: Discipline</span>
-    </div>
-
-    <div class="risk-card yellow">
-      <div class="risk-icon">&#9679;</div>
-      <h3>Client File Retention & Return</h3>
-      <p>Rule 1.16(e) — prompt return upon termination. No standard system at most firms creates persistent complaint exposure.</p>
-      <span class="penalty">Penalty: Discipline + Malpractice</span>
-    </div>
-
-    <div class="risk-card red">
-      <div class="risk-icon">&#9888;</div>
-      <h3>Annual State Bar Reporting</h3>
-      <p>License fees, CTAPP certification, MCLE reporting — miss a deadline and you're administratively suspended. Can't practice.</p>
-      <span class="penalty">Penalty: Involuntary Inactive Status</span>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<section class="proof-section">
-  <div class="proof-inner">
-    <h2>The numbers don't lie</h2>
-    <div class="proof-stats">
-      <div class="proof-stat">
-        <span class="big red-text">21,000+</span>
-        <span class="desc">Discipline cases opened by the CA State Bar in FY 2025</span>
-      </div>
-      <div class="proof-stat">
-        <span class="big gold-text">$6.2M</span>
-        <span class="desc">Reimbursed to 355 victims of attorney misconduct</span>
-      </div>
-      <div class="proof-stat">
-        <span class="big red-text">69</span>
-        <span class="desc">Attorneys recommended for disbarment in FY 2025</span>
-      </div>
-      <div class="proof-stat">
-        <span class="big gold-text">41%</span>
-        <span class="desc">Investigation rate for solo practitioner complaints</span>
+      <div class="form-success" id="formSuccess">
+        <div class="form-success-icon">&#10003;</div>
+        <h3>Request Received!</h3>
+        <p>Thank you for reaching out. We'll review your project details and get back to you within 24 hours. We look forward to working with you!</p>
       </div>
     </div>
   </div>
-</section>
-
-<!-- BOTTOM CTA -->
-<section class="cta-section">
-  <h2>Don't wait for the State Bar to find your gaps</h2>
-  <p>Our free compliance audit takes 5 minutes and checks your firm across every area the Bar actually disciplines for. Most firms find 3-4 issues they didn't know about.</p>
-  <a href="#audit-form" class="cta-button">Get Your Free Compliance Audit</a>
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
-  <p>&copy; 2026 Legal Hub Group. All rights reserved. | <a href="mailto:andrew@legalhubgroup.com">andrew@legalhubgroup.com</a></p>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">Hye Art <span>Glass</span></div>
+      <p>Premier art glass studio in Van Nuys, California. Custom stained glass, restoration, and architectural glass installations serving the greater Los Angeles area.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Stained Glass</a></li>
+        <li><a href="#services">Fused Glass</a></li>
+        <li><a href="#services">Restoration</a></li>
+        <li><a href="#services">Architectural Glass</a></li>
+        <li><a href="#services">Glass Etching</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#process">Our Process</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#contact">Get a Quote</a></li>
+        <li><a href="tel:+18185551234">(818) 555-1234</a></li>
+        <li><a href="mailto:info@hyeartglass.com">info@hyeartglass.com</a></li>
+        <li><a>Van Nuys, CA 91405</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Hye Art Glass. All rights reserved.</p>
+    <p>Serving Van Nuys, Encino, Sherman Oaks, Studio City, Burbank & all of Los Angeles</p>
+  </div>
 </footer>
 
 <script>
-function submitForm() {
-  const fname = document.getElementById('fname').value;
-  const lname = document.getElementById('lname').value;
-  const email = document.getElementById('email').value;
-  const firm = document.getElementById('firm').value;
-  const firmSize = document.getElementById('firm-size').value;
-  const practice = document.getElementById('practice').value;
+// Navbar scroll effect
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
 
-  if (!fname || !lname || !email || !firm || !firmSize || !practice) {
-    alert('Please fill in all fields to receive your audit.');
-    return;
-  }
+// Mobile menu toggle
+const mobileToggle = document.getElementById('mobileToggle');
+const navLinks = document.getElementById('navLinks');
+mobileToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
 
-  // Send to Mailchimp or your backend
-  const data = { fname, lname, email, firm, firmSize, practice };
-  console.log('Audit request submitted:', data);
+// Close mobile menu on link click
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+  });
+});
 
-  // You can replace this with an actual API call:
-  // fetch('YOUR_ENDPOINT', { method: 'POST', body: JSON.stringify(data) })
-
-  document.getElementById('form-fields').style.display = 'none';
-  document.getElementById('form-success').style.display = 'block';
-}
-
-// Smooth scroll for anchor links
+// Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     e.preventDefault();
-    document.querySelector(this.getAttribute('href')).scrollIntoView({
-      behavior: 'smooth'
-    });
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   });
 });
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Form submission
+function submitForm() {
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const projectType = document.getElementById('projectType').value;
+  const details = document.getElementById('details').value.trim();
+
+  if (!fname || !lname || !email || !projectType) {
+    alert('Please fill in all required fields (name, email, and project type).');
+    return;
+  }
+
+  const data = { fname, lname, email, phone, projectType, details };
+  console.log('Quote request submitted:', data);
+
+  // Replace with your actual API endpoint:
+  // fetch('YOUR_ENDPOINT', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) })
+
+  document.getElementById('formFields').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
 </script>
 
 </body>
