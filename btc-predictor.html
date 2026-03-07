@@ -511,39 +511,113 @@ const STATE = {
 // DATA FETCHING - Binance Public API
 // ============================================================
 
-async function fetchHistoricalCandles() {
-  try {
-    // Fetch 200 x 1-minute candles for indicator warm-up
-    const resp = await fetch(
-      'https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=200'
-    );
-    const data = await resp.json();
-    STATE.candles = data.map(k => ({
-      time: k[0],
-      open: parseFloat(k[1]),
-      high: parseFloat(k[2]),
-      low: parseFloat(k[3]),
-      close: parseFloat(k[4]),
-      volume: parseFloat(k[5]),
-    }));
-    STATE.currentPrice = STATE.candles[STATE.candles.length - 1].close;
-    STATE.lastUpdate = new Date();
-    updatePriceDisplay();
-    computeAndDisplay();
-    drawChart();
-  } catch (err) {
-    console.error('Failed to fetch historical candles:', err);
-    // Retry after 5s
-    setTimeout(fetchHistoricalCandles, 5000);
-  }
+const API_SOURCES = [
+  {
+    name: 'Binance',
+    candles: 'https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=200',
+    parse: (data) => data.map(k => ({
+      time: k[0], open: +k[1], high: +k[2], low: +k[3], close: +k[4], volume: +k[5],
+    })),
+    ws: 'wss://stream.binance.com:9443/ws/btcusdt@kline_1m',
+  },
+  {
+    name: 'Binance US',
+    candles: 'https://api.binance.us/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=200',
+    parse: (data) => data.map(k => ({
+      time: k[0], open: +k[1], high: +k[2], low: +k[3], close: +k[4], volume: +k[5],
+    })),
+    ws: 'wss://stream.binance.us:9443/ws/btcusdt@kline_1m',
+  },
+  {
+    name: 'CoinGecko',
+    candles: 'https://api.coingecko.com/api/v3/coins/bitcoin/ohlc?vs_currency=usd&days=1',
+    parse: (data) => data.slice(-200).map(k => ({
+      time: k[0], open: k[1], high: k[2], low: k[3], close: k[4], volume: 0,
+    })),
+    ws: null,
+  },
+  {
+    name: 'CryptoCompare',
+    candles: 'https://min-api.cryptocompare.com/data/v2/histominute?fsym=BTC&tsym=USD&limit=200',
+    parse: (data) => (data.Data?.Data || []).map(k => ({
+      time: k.time * 1000, open: k.open, high: k.high, low: k.low, close: k.close, volume: k.volumefrom,
+    })),
+    ws: null,
+  },
+];
+
+let activeSource = null;
+
+function setStatus(msg, type) {
+  const badge = document.getElementById('statusBadge');
+  badge.textContent = msg;
+  badge.className = 'status-badge ' + (type === 'live' ? 'status-live' : 'status-loading');
 }
 
+async function fetchHistoricalCandles() {
+  for (const source of API_SOURCES) {
+    try {
+      setStatus(`Trying ${source.name}...`, 'loading');
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      const resp = await fetch(source.candles, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      const candles = source.parse(data);
+      if (!candles || candles.length < 10) throw new Error('Not enough data');
+
+      STATE.candles = candles;
+      STATE.currentPrice = candles[candles.length - 1].close;
+      STATE.lastUpdate = new Date();
+      activeSource = source;
+      console.log(`Using ${source.name} API`);
+      setStatus(`Live (${source.name})`, 'live');
+      updatePriceDisplay();
+      computeAndDisplay();
+      drawChart();
+      return;
+    } catch (err) {
+      console.warn(`${source.name} failed:`, err.message);
+    }
+  }
+
+  // All APIs failed - retry
+  setStatus('APIs unavailable, retrying...', 'loading');
+  console.error('All API sources failed, retrying in 10s...');
+  setTimeout(fetchHistoricalCandles, 10000);
+}
+
+let pollingInterval = null;
+
 function connectWebSocket() {
+  // If source has no WS, fall back to polling
+  if (!activeSource || !activeSource.ws) {
+    console.log('No WebSocket for this source, using polling');
+    startPolling();
+    return;
+  }
+
   if (STATE.ws) {
     STATE.ws.close();
   }
 
-  STATE.ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
+  try {
+    STATE.ws = new WebSocket(activeSource.ws);
+  } catch (e) {
+    console.warn('WebSocket creation failed, falling back to polling');
+    startPolling();
+    return;
+  }
+
+  let wsConnected = false;
+  const wsTimeout = setTimeout(() => {
+    if (!wsConnected && STATE.ws) {
+      console.warn('WebSocket connection timeout, falling back to polling');
+      STATE.ws.close();
+      startPolling();
+    }
+  }, 10000);
 
   STATE.ws.onmessage = (event) => {
     const msg = JSON.parse(event.data);
@@ -566,7 +640,6 @@ function connectWebSocket() {
       STATE.candles[STATE.candles.length - 1] = candle;
     } else if (candle.time > (lastCandle ? lastCandle.time : 0)) {
       STATE.candles.push(candle);
-      // Keep max 500 candles
       if (STATE.candles.length > 500) STATE.candles.shift();
     }
 
@@ -577,19 +650,106 @@ function connectWebSocket() {
   };
 
   STATE.ws.onclose = () => {
-    console.log('WebSocket closed, reconnecting...');
-    setTimeout(connectWebSocket, 3000);
+    clearTimeout(wsTimeout);
+    if (wsConnected) {
+      console.log('WebSocket closed, trying to reconnect...');
+      setTimeout(connectWebSocket, 3000);
+    }
   };
 
-  STATE.ws.onerror = (err) => {
-    console.error('WebSocket error:', err);
-    STATE.ws.close();
+  STATE.ws.onerror = () => {
+    clearTimeout(wsTimeout);
+    if (!wsConnected) {
+      console.warn('WebSocket failed, falling back to polling');
+      startPolling();
+    } else {
+      STATE.ws.close();
+    }
   };
 
   STATE.ws.onopen = () => {
-    document.getElementById('statusBadge').className = 'status-badge status-live';
-    document.getElementById('statusBadge').innerHTML = '<span class="live-dot"></span> Live';
+    wsConnected = true;
+    clearTimeout(wsTimeout);
+    // Stop polling if it was running
+    if (pollingInterval) { clearInterval(pollingInterval); pollingInterval = null; }
+    setStatus(`Live WS (${activeSource.name})`, 'live');
   };
+}
+
+async function pollPrice() {
+  try {
+    // Try quick price endpoint first
+    const urls = [
+      'https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT',
+      'https://api.binance.us/api/v3/ticker/price?symbol=BTCUSDT',
+      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
+      'https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD',
+    ];
+
+    for (const url of urls) {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
+        const resp = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeout);
+        if (!resp.ok) continue;
+        const data = await resp.json();
+
+        let price = null;
+        if (data.price) price = parseFloat(data.price);
+        else if (data.bitcoin?.usd) price = data.bitcoin.usd;
+        else if (data.USD) price = data.USD;
+
+        if (price && price > 0) {
+          STATE.currentPrice = price;
+          STATE.lastUpdate = new Date();
+
+          // Update last candle's close
+          if (STATE.candles.length > 0) {
+            const last = STATE.candles[STATE.candles.length - 1];
+            last.close = price;
+            last.high = Math.max(last.high, price);
+            last.low = Math.min(last.low, price);
+          }
+
+          updatePriceDisplay();
+          computeAndDisplay();
+          drawChart();
+          checkPredictionResult();
+          return;
+        }
+      } catch (e) { /* try next */ }
+    }
+  } catch (err) {
+    console.warn('Poll failed:', err.message);
+  }
+}
+
+function startPolling() {
+  if (pollingInterval) return;
+  setStatus(`Polling (${activeSource?.name || 'fallback'})`, 'live');
+  pollingInterval = setInterval(pollPrice, 5000);
+  pollPrice(); // First poll immediately
+}
+
+// Also re-fetch full candles every 2 minutes to keep chart fresh when polling
+function startCandleRefresh() {
+  setInterval(async () => {
+    if (!activeSource) return;
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      const resp = await fetch(activeSource.candles, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!resp.ok) return;
+      const data = await resp.json();
+      const candles = activeSource.parse(data);
+      if (candles && candles.length >= 10) {
+        STATE.candles = candles;
+        drawChart();
+      }
+    } catch (e) { /* silent */ }
+  }, 120000);
 }
 
 // ============================================================
@@ -1342,6 +1502,7 @@ async function init() {
   STATE.nextPredictionTime = Date.now() + 30000; // First prediction after 30s of data
   await fetchHistoricalCandles();
   connectWebSocket();
+  startCandleRefresh();
 
   // Countdown timer
   setInterval(updateCountdown, 1000);
