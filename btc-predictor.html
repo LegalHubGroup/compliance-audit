@@ -511,6 +511,14 @@ const STATE = {
 // DATA FETCHING - Binance Public API
 // ============================================================
 
+// CORS proxies to try if direct APIs fail
+const CORS_PROXIES = [
+  '',  // try direct first
+  'https://api.allorigins.win/raw?url=',
+  'https://corsproxy.io/?',
+  'https://api.codetabs.com/v1/proxy?quest=',
+];
+
 const API_SOURCES = [
   {
     name: 'Binance',
@@ -546,6 +554,8 @@ const API_SOURCES = [
   },
 ];
 
+const errorLog = [];
+
 let activeSource = null;
 
 function setStatus(msg, type) {
@@ -554,37 +564,56 @@ function setStatus(msg, type) {
   badge.className = 'status-badge ' + (type === 'live' ? 'status-live' : 'status-loading');
 }
 
+function showErrorInUI(msg) {
+  errorLog.push(msg);
+  const el = document.getElementById('priceChange');
+  if (el) {
+    el.innerHTML = `<span style="color:#f85149;font-size:12px;">${errorLog.slice(-3).join('<br>')}</span>`;
+  }
+}
+
+async function fetchWithProxy(url, proxyPrefix) {
+  const finalUrl = proxyPrefix ? proxyPrefix + encodeURIComponent(url) : url;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  const resp = await fetch(finalUrl, { signal: controller.signal });
+  clearTimeout(timeout);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  return resp.json();
+}
+
 async function fetchHistoricalCandles() {
   for (const source of API_SOURCES) {
-    try {
-      setStatus(`Trying ${source.name}...`, 'loading');
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 8000);
-      const resp = await fetch(source.candles, { signal: controller.signal });
-      clearTimeout(timeout);
-      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      const data = await resp.json();
-      const candles = source.parse(data);
-      if (!candles || candles.length < 10) throw new Error('Not enough data');
+    for (const proxy of CORS_PROXIES) {
+      try {
+        const proxyLabel = proxy ? ' via proxy' : '';
+        setStatus(`Trying ${source.name}${proxyLabel}...`, 'loading');
+        const data = await fetchWithProxy(source.candles, proxy);
+        const candles = source.parse(data);
+        if (!candles || candles.length < 10) throw new Error('Not enough data');
 
-      STATE.candles = candles;
-      STATE.currentPrice = candles[candles.length - 1].close;
-      STATE.lastUpdate = new Date();
-      activeSource = source;
-      console.log(`Using ${source.name} API`);
-      setStatus(`Live (${source.name})`, 'live');
-      updatePriceDisplay();
-      computeAndDisplay();
-      drawChart();
-      return;
-    } catch (err) {
-      console.warn(`${source.name} failed:`, err.message);
+        STATE.candles = candles;
+        STATE.currentPrice = candles[candles.length - 1].close;
+        STATE.lastUpdate = new Date();
+        activeSource = source;
+        activeSource._proxy = proxy;
+        console.log(`Using ${source.name} API${proxyLabel}`);
+        setStatus(`Live (${source.name})`, 'live');
+        updatePriceDisplay();
+        computeAndDisplay();
+        drawChart();
+        return;
+      } catch (err) {
+        const msg = `${source.name}${proxy ? ' (proxy)' : ''}: ${err.message}`;
+        console.warn(msg);
+        showErrorInUI(msg);
+      }
     }
   }
 
-  // All APIs failed - retry
-  setStatus('APIs unavailable, retrying...', 'loading');
-  console.error('All API sources failed, retrying in 10s...');
+  // All APIs and proxies failed - retry
+  setStatus('All APIs failed, retrying...', 'loading');
+  showErrorInUI('All sources failed. Retrying in 10s...');
   setTimeout(fetchHistoricalCandles, 10000);
 }
 
@@ -677,51 +706,42 @@ function connectWebSocket() {
 }
 
 async function pollPrice() {
-  try {
-    // Try quick price endpoint first
-    const urls = [
-      'https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT',
-      'https://api.binance.us/api/v3/ticker/price?symbol=BTCUSDT',
-      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
-      'https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD',
-    ];
+  const proxy = activeSource?._proxy || '';
+  const urls = [
+    'https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT',
+    'https://api.binance.us/api/v3/ticker/price?symbol=BTCUSDT',
+    'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
+    'https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD',
+  ];
 
-    for (const url of urls) {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 5000);
-        const resp = await fetch(url, { signal: controller.signal });
-        clearTimeout(timeout);
-        if (!resp.ok) continue;
-        const data = await resp.json();
+  for (const url of urls) {
+    try {
+      const data = await fetchWithProxy(url, proxy);
 
-        let price = null;
-        if (data.price) price = parseFloat(data.price);
-        else if (data.bitcoin?.usd) price = data.bitcoin.usd;
-        else if (data.USD) price = data.USD;
+      let price = null;
+      if (data.price) price = parseFloat(data.price);
+      else if (data.bitcoin?.usd) price = data.bitcoin.usd;
+      else if (data.USD) price = data.USD;
 
-        if (price && price > 0) {
-          STATE.currentPrice = price;
-          STATE.lastUpdate = new Date();
+      if (price && price > 0) {
+        STATE.currentPrice = price;
+        STATE.lastUpdate = new Date();
 
-          // Update last candle's close
-          if (STATE.candles.length > 0) {
-            const last = STATE.candles[STATE.candles.length - 1];
-            last.close = price;
-            last.high = Math.max(last.high, price);
-            last.low = Math.min(last.low, price);
-          }
-
-          updatePriceDisplay();
-          computeAndDisplay();
-          drawChart();
-          checkPredictionResult();
-          return;
+        // Update last candle's close
+        if (STATE.candles.length > 0) {
+          const last = STATE.candles[STATE.candles.length - 1];
+          last.close = price;
+          last.high = Math.max(last.high, price);
+          last.low = Math.min(last.low, price);
         }
-      } catch (e) { /* try next */ }
-    }
-  } catch (err) {
-    console.warn('Poll failed:', err.message);
+
+        updatePriceDisplay();
+        computeAndDisplay();
+        drawChart();
+        checkPredictionResult();
+        return;
+      }
+    } catch (e) { /* try next */ }
   }
 }
 
@@ -737,12 +757,7 @@ function startCandleRefresh() {
   setInterval(async () => {
     if (!activeSource) return;
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 8000);
-      const resp = await fetch(activeSource.candles, { signal: controller.signal });
-      clearTimeout(timeout);
-      if (!resp.ok) return;
-      const data = await resp.json();
+      const data = await fetchWithProxy(activeSource.candles, activeSource._proxy || '');
       const candles = activeSource.parse(data);
       if (candles && candles.length >= 10) {
         STATE.candles = candles;
